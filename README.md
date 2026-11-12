@@ -1,70 +1,63 @@
 # Telegram Contract Analysis Bot
 
-A prototype Telegram bot that reads a contract PDF and explains the risky parts in simple words. Personal learning project, still in progress.
+A Python project designed to analyse PDF contracts through Telegram and explain clauses and potential risks in simple language. It is intended for different contract types, including rental and employment agreements.
 
-## Project status
+## Features and intended output
 
-Work in progress. The code in this repo does not run yet - see "Known blockers" below.
+- Extract text from uploaded PDF contracts
+- Summarise the agreement
+- Identify clauses about payments, penalties, liability and termination
+- Highlight potential risks and missing protections
+- Return the analysis through Telegram
 
-## What the bot is intended to do
+The example screenshots also show a risk score and suggestions. These are AI-generated outputs, not validated legal assessments.
 
-You send a PDF contract to the bot in Telegram, and it replies in the same chat with a simple bullet-point review covering:
+## Technology
 
-- Risky clauses
-- Penalties
-- Liability issues
-- Payment obligations
-- Termination conditions
-- Missing protections
+- Python
+- FastAPI and Uvicorn
+- Telegram Bot API through python-telegram-bot
+- PyPDF2 for PDF text extraction
+- Groq API with Llama 3.3 70B Versatile
+
+The repository also contains an earlier WhatsApp prototype using pywa, requests and keyword matching.
 
 ## Intended workflow
 
-1. You send a PDF contract to the bot in Telegram.
-2. The bot downloads the file and extracts the text with PyPDF2.
-3. The text (first 12,000 characters) is sent to the Groq API, which runs the Llama 3.3 70B Versatile model with a prompt asking it to review the contract like a legal expert.
-4. The bot sends the model's reply back to you in Telegram.
+1. A user uploads a PDF contract in Telegram.
+2. The bot downloads the document and extracts its text.
+3. The first 12,000 characters are sent to Groq for LLM analysis.
+4. The analysis is returned to the user in the Telegram chat.
 
-## What is in this repo
+## Repository status
 
-`bot.py` contains two prototype experiments in one file:
+The current bot.py combines the WhatsApp and Telegram prototypes. As committed, a stray pasted line causes a Python syntax error, and the Telegram update polling loop is not started. The uploaded code therefore needs cleanup before it can run end to end.
 
-- **Telegram contract-analysis bot** - the main idea, described above. Uses an AI model to review the contract.
-- **WhatsApp Cloud API prototype** - an earlier try that scans the PDF for fixed risk keywords ("penalty", "termination", "deposit", "liability", "payment") without an AI model.
+There are no verified installation and launch instructions yet. API credentials must be kept out of version control; loading them through environment variables is a planned improvement.
 
-## Libraries the code uses
+## Screenshots
 
-- python-telegram-bot (Telegram Bot API)
-- FastAPI and Uvicorn (server)
-- PyPDF2 (PDF text extraction)
-- Groq API client (AI model)
-- pywa and requests (WhatsApp prototype)
+These screenshots illustrate a Telegram conversation and the analysis output format. They do not verify that the current committed code runs successfully or that the analysis is accurate. One example shows a rental filename but an employment-agreement summary, so the input and response need checking.
 
-## Known blockers
+<img width="720" height="1385" alt="Contract upload and analysis example" src="https://github.com/user-attachments/assets/0ff636a6-91ce-4fef-959d-9d3a5934be26" />
 
-- `bot.py` is not valid Python as committed: it holds two programs in one file with a stray pasted line in between, so the file cannot be parsed or started.
-- The Telegram bot's message loop is never started, so it cannot receive messages yet.
-- API keys are currently placeholders written in the source code. Planned: load them from environment variables instead, so no real key ever sits in the repo.
-- Planned next step: split the two programs into separate files and finish the Telegram version first.
+<img width="720" height="1210" alt="Contract analysis example continued" src="https://github.com/user-attachments/assets/bd250066-f495-4e13-8581-8fd1fd74fecf" />
 
-## Demo
+<img width="720" height="1192" alt="Risk analysis example" src="https://github.com/user-attachments/assets/7d7fb918-a813-4205-b4e7-e643561acd6c" />
 
-<img width="720" height="1385" alt="WhatsApp Image 2026-11-12 at 1 26 58 PM" src="https://github.com/user-attachments/assets/0ff636a6-91ce-4fef-959d-9d3a5934be26" />
-<img width="720" height="1210" alt="WhatsApp Image 2026-11-12 at 1 27 07 PM" src="https://github.com/user-attachments/assets/bd250066-f495-4e13-8581-8fd1fd74fecf" />
-<img width="720" height="1192" alt="WhatsApp Image 2026-11-12 at 1 27 15 PM" src="https://github.com/user-attachments/assets/7d7fb918-a813-4205-b4e7-e643561acd6c" />
-<img width="720" height="1215" alt="WhatsApp Image 2026-11-12 at 1 27 35 PM" src="https://github.com/user-attachments/assets/b8909eaf-d3a2-4c9b-849e-59fee1008512" />
+<img width="720" height="1215" alt="Analysis suggestions example" src="https://github.com/user-attachments/assets/b8909eaf-d3a2-4c9b-849e-59fee1008512" />
 
+## Limitations and privacy
 
+- AI-generated analysis can contain mistakes. It is not legal advice or a substitute for a qualified lawyer.
+- Contract text is sent to Groq, an external AI service. Do not upload confidential or sensitive documents without appropriate permission.
+- The current extraction approach handles PDF text and limits analysis to the first 12,000 characters. Scanned PDFs may require OCR, which is not implemented here.
+- Supporting different contract types does not guarantee correct identification or analysis of every document.
 
-## Limitations
+## Next steps
 
-- The analysis is generated by an AI model. It is not legal advice, and it can miss things or be wrong. A qualified lawyer should review any real contract.
-- The contract text is sent to an external AI service (Groq) for analysis. Do not send confidential or sensitive contracts.
-- Only PDF files are supported, and only the first 12,000 characters of text are analyzed.
-
-## Future improvements
-
-- Clean up and split the code so the Telegram bot runs end to end
-- Load API keys from environment variables
-- A risk score for each clause
-- Page numbers for each flagged clause
-- Support for Word documents
+- Separate the Telegram and WhatsApp prototypes
+- Fix the syntax error and complete Telegram message polling
+- Load credentials securely from environment variables
+- Test with clearly labelled sample contracts
+- Add reproducible setup instructions and document test results
