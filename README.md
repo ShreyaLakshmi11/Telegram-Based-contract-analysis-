@@ -48,7 +48,12 @@ You send a PDF contract to the bot in Telegram, and it replies in the same chat 
 
 ## Demo
 
-No screenshot yet. A sample run will be added once the bot is working.
+<img width="720" height="1385" alt="WhatsApp Image 2026-11-12 at 1 26 58 PM" src="https://github.com/user-attachments/assets/0ff636a6-91ce-4fef-959d-9d3a5934be26" />
+<img width="720" height="1210" alt="WhatsApp Image 2026-11-12 at 1 27 07 PM" src="https://github.com/user-attachments/assets/bd250066-f495-4e13-8581-8fd1fd74fecf" />
+<img width="720" height="1192" alt="WhatsApp Image 2026-11-12 at 1 27 15 PM" src="https://github.com/user-attachments/assets/7d7fb918-a813-4205-b4e7-e643561acd6c" />
+<img width="720" height="1215" alt="WhatsApp Image 2026-11-12 at 1 27 35 PM" src="https://github.com/user-attachments/assets/b8909eaf-d3a2-4c9b-849e-59fee1008512" />
+
+
 
 ## Limitations
 
